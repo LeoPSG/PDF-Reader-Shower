@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -9,17 +10,19 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 import gui.utils.Alerts;
-import gui.utils.Constraints;
 import gui.utils.FileUtils;
-import gui.utils.Utils;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class MainScreenController {
@@ -35,7 +38,7 @@ public class MainScreenController {
 	public Label fileName;
 	@FXML
 	public void fileNameTooltip() {
-		fileName.setTooltip(new Tooltip("File name"));
+		fileName.setTooltip(new Tooltip("The file's name"));
 	}
 
 	@FXML
@@ -95,12 +98,6 @@ public class MainScreenController {
 	}
 	
 	@FXML
-	public TextField numberOfWordToBeginWith;
-	public void numberOfWordToBeginWithTooltip() {
-		numberOfWordToBeginWith.setTooltip(new Tooltip("Insert the number of word to begin"));
-	}
-	
-	@FXML
 	public Label currentWordCount;
 	
 	@FXML
@@ -112,8 +109,11 @@ public class MainScreenController {
 	@FXML
 	public Label currentWord;
 	
+	@FXML
+	public Button about;
+	
 	String filePath = null;
-	static double wordDelay = 2.0;
+	static double wordDelay = 0.75;
 	static boolean isPaused = false;
 	static boolean stopRequest = false;
 	static Integer currentWordIndex = 0;
@@ -149,7 +149,9 @@ public class MainScreenController {
 	public void onFileBrowserAction() {
 		fileBrowser();
 		showFileName();
-		initializeNodes();
+		if (filePath == null) {
+			return;
+		}
 		words = stringToArrayList(separateWordsByWhitespaceFromFile(filePath));
 		maxWordsCount.setText("/" + words.size());
 	}
@@ -176,23 +178,23 @@ public class MainScreenController {
 
 	@FXML
 	public void onDecreaseDelayAction() {
-		if (wordDelay == 3.0) {
-			wordDelay = 2.0;
-			currentDelay.setText("2s");
-		} else if (wordDelay == 2.0) {
-			wordDelay = 1.0;
-			currentDelay.setText("1s");
+		if (wordDelay == 1.0) {
+			wordDelay = 0.75;
+			currentDelay.setText("0.75s");
+		} else if (wordDelay == 0.75) {
+			wordDelay = 0.50;
+			currentDelay.setText("0.50s");
 		}
 	}
 
 	@FXML
 	public void onIncreaseDelayAction() {
-		if (wordDelay == 1.0) {
-			wordDelay = 2.0;
-			currentDelay.setText("2s");
-		} else if (wordDelay == 2.0) {
-			wordDelay = 3.0;
-			currentDelay.setText("3s");
+		if (wordDelay == 0.50) {
+			wordDelay = 0.75;
+			currentDelay.setText("0.75s");
+		} else if (wordDelay == 0.75) {
+			wordDelay = 1.0;
+			currentDelay.setText("1.0s");
 		}
 	}
 	
@@ -200,6 +202,9 @@ public class MainScreenController {
 		if (isPaused == true) {
 			return;
 		} else if (indexOfWord >= list.size() || stopRequest == true) {
+			labelForCountingWord.setText("0");
+			labelForShowingWord.setText(null);
+			stopRequest = false;
 			return;
 		}
 		double newDelay = wordDelay;
@@ -220,7 +225,7 @@ public class MainScreenController {
 	
 	@FXML
 	public void onAWordBeforeAction() {
-		if (words.isEmpty() || currentWordIndex == 0) {
+		if ((words == null || words.isEmpty()) || currentWordIndex == 0) {
 			return;
 		}
 		if (isPaused == true) {
@@ -236,7 +241,7 @@ public class MainScreenController {
 	
 	@FXML
 	public void onFiveWordBeforeAction() {
-		if (words.isEmpty() || currentWordIndex == 0) {
+		if ((words == null || words.isEmpty()) || currentWordIndex == 0) {
 			return;
 		}
 		if (isPaused == true) {
@@ -256,10 +261,23 @@ public class MainScreenController {
 	
 	@FXML
 	public void onPauseAndResumeAction() {
-		if (words.isEmpty()) {
+		if (words == null && isPaused) {
+			isPaused = false;
+			isPausedOrNot.setText("");
+			pauseAndResume.setText("\u23F8");
+			return;
+		} else if (words == null) {
 			return;
 		}
-		if (isPaused == true) {
+		if (words.isEmpty() && isPaused) {
+			isPaused = false;
+			isPausedOrNot.setText("");
+			pauseAndResume.setText("\u23F8");
+			return;
+		} else if (words.isEmpty()) {
+			return;
+		}
+		if (isPaused) {
 			isPaused = false;
 			isPausedOrNot.setText("");
 			pauseAndResume.setText("\u23F8");
@@ -277,17 +295,7 @@ public class MainScreenController {
 			Alerts.showAlert("ERROR", "No file detected", null, AlertType.ERROR);
 			return;
 		}
-		if (numberOfWordToBeginWith.getText() == "") {
-			isPaused = true;
-			isPausedOrNot.setText("Paused");
-			pauseAndResume.setText("\u23F5");
-			Alerts.showAlert("ERROR", "Number of word to begin is empty", null, AlertType.ERROR);
-		} else if (numberOfWordToBeginWith.getText() == "1") {
-			labelUpdaterWithDelay(words, 0, currentWord, currentWordCount, wordDelay);
-		} else {
-			int index = Utils.tryParseToInteger(numberOfWordToBeginWith.getText()) - 1;
-			labelUpdaterWithDelay(words, index, currentWord, currentWordCount, wordDelay);
-		}
+		labelUpdaterWithDelay(words, 0, currentWord, currentWordCount, wordDelay);
 	}
 
 	@FXML
@@ -302,15 +310,27 @@ public class MainScreenController {
 		currentWord.setText(null);
 		maxWordsCount.setText("/0");
 		currentWordCount.setText("0");
-		numberOfWordToBeginWith.setText("1");
+		onPauseAndResumeAction();
 	}
 	
-	private void initializeNodes() {
-		if (numberOfWordToBeginWith.isEditable()) {
-			return;
-		}
-		numberOfWordToBeginWith.setEditable(true);
-		Constraints.setTextFieldInteger(numberOfWordToBeginWith);
-		Constraints.setTextFieldMaxLength(numberOfWordToBeginWith, 6);
+	private void loadViewWithoutIcon(String absoluteName, String title) {
+		try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+            VBox root = loader.load();
+            
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle(title);
+            stage.initStyle(StageStyle.UTILITY); //only the close button remains
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	@FXML
+	public void onAboutAction() {
+		loadViewWithoutIcon("/gui/About.fxml", "About");
 	}
 }

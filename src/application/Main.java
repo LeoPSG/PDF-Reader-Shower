@@ -22,15 +22,19 @@ public class Main extends Application {
 			primaryStage.setScene(mainScene);
 			primaryStage.setTitle("PDF Reader");
 			primaryStage.setResizable(false);
-			//primaryStage.setMaximized(true);
-			//primaryStage.setFullScreen(true);
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public static Scene getMainScene() {
+		return mainScene;
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
-	}
+            	
+    }
+	
 }
