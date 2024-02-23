@@ -113,8 +113,9 @@ public class MainScreenController {
 	public Button about;
 	
 	String filePath = null;
-	static double wordDelay = 0.75;
+	static Double wordDelay = 0.50;
 	static boolean isPaused = false;
+	static boolean isPlaying = false;
 	static boolean stopRequest = false;
 	static Integer currentWordIndex = 0;
 	ArrayList<String> words = new ArrayList<>();
@@ -175,38 +176,50 @@ public class MainScreenController {
 		}
 		return words;
 	}
-
-	@FXML
-	public void onDecreaseDelayAction() {
-		if (wordDelay == 1.0) {
-			wordDelay = 0.75;
-			currentDelay.setText("0.75s");
-		} else if (wordDelay == 0.75) {
-			wordDelay = 0.50;
-			currentDelay.setText("0.50s");
+	public double changeDelay (Double delay, boolean increase) {
+		if (increase) {
+			delay += 0.10;
+		} else {
+			delay -= 0.10;
 		}
+		return delay;
 	}
 
 	@FXML
+	public void onDecreaseDelayAction() {
+		if (wordDelay > 0.20) {
+			wordDelay = changeDelay(wordDelay, false);
+			currentDelay.setText(String.format("%.2f", wordDelay) + "s");
+		} else {
+			return;
+		}
+	}
+	
+	@FXML
 	public void onIncreaseDelayAction() {
-		if (wordDelay == 0.50) {
-			wordDelay = 0.75;
-			currentDelay.setText("0.75s");
-		} else if (wordDelay == 0.75) {
-			wordDelay = 1.0;
-			currentDelay.setText("1.0s");
+		if (wordDelay < 0.90) {
+			wordDelay = changeDelay(wordDelay, true);
+			currentDelay.setText(String.format("%.2f", wordDelay) + "s");
+		} else {
+			return;
 		}
 	}
 	
 	public static void labelUpdaterWithDelay(ArrayList<String> list, int indexOfWord, Label labelForShowingWord, Label labelForCountingWord, double delay) {
 		if (isPaused == true) {
 			return;
+		} else if (indexOfWord >= list.size()) {
+			stopRequest = false;
+			isPlaying = false;
+			return;
 		} else if (indexOfWord >= list.size() || stopRequest == true) {
 			labelForCountingWord.setText("0");
 			labelForShowingWord.setText(null);
 			stopRequest = false;
+			isPlaying = false;
 			return;
 		}
+		isPlaying = true;
 		double newDelay = wordDelay;
 		Integer currentWordNumber = indexOfWord + 1;
 		Timeline timeline = new Timeline(
@@ -261,6 +274,9 @@ public class MainScreenController {
 	
 	@FXML
 	public void onPauseAndResumeAction() {
+		if (!isPlaying) {
+			return;
+		}
 		if (words == null && isPaused) {
 			isPaused = false;
 			isPausedOrNot.setText("");

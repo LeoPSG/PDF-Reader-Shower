@@ -11,7 +11,7 @@
 
 <VBox alignment="CENTER" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainScreenController">
    <children>
-      <GridPane alignment="CENTER" gridLinesVisible="true" prefHeight="395.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
+      <GridPane alignment="CENTER" gridLinesVisible="true" prefHeight="395.0" prefWidth="810.0" VBox.vgrow="ALWAYS">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -22,17 +22,13 @@
          <children>
             <GridPane>
               <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="50.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="30.0" minWidth="10.0" prefWidth="50.0" />
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="30.0" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="65.0" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="37.0" minWidth="10.0" prefWidth="30.0" />
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="230.0" minWidth="10.0" prefWidth="50.0" />
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="235.0" minWidth="10.0" prefWidth="50.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="245.0" minWidth="10.0" prefWidth="245.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="40.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="40.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="40.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="245.0" minWidth="10.0" prefWidth="245.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -49,28 +45,21 @@
                      <GridPane.margin>
                         <Insets left="90.0" />
                      </GridPane.margin></Label>
-                  <Button fx:id="fiveWordsBefore" mnemonicParsing="false" onAction="#onFiveWordBeforeAction" onMouseEntered="#fiveWordsBeforeTooltip" text="5&lt;&lt;" GridPane.columnIndex="1" />
-                  <Button fx:id="aWordBefore" mnemonicParsing="false" onAction="#onAWordBeforeAction" onMouseEntered="#aWordBeforeTooltip" text="1&lt;&lt;" GridPane.columnIndex="2" />
-                  <Button fx:id="decreaseDelay" mnemonicParsing="false" onAction="#onDecreaseDelayAction" onMouseEntered="#decreaseDelayTooltip" text="&lt;" GridPane.columnIndex="3" />
-                  <Button fx:id="pauseAndResume" mnemonicParsing="false" onAction="#onPauseAndResumeAction" onMouseEntered="#pauseAndResumeTooltip" text="⏸" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
-                  <Button fx:id="increaseDelay" mnemonicParsing="false" onAction="#onIncreaseDelayAction" onMouseEntered="#increaseDelayTooltip" text="&gt;" GridPane.columnIndex="5" />
-                  <Label fx:id="currentDelay" alignment="CENTER" contentDisplay="CENTER" onMouseEntered="#currentSpeedTooltip" text="0.75s" textAlignment="JUSTIFY" GridPane.columnIndex="6" GridPane.halignment="CENTER" />
-                  <Button fx:id="play" mnemonicParsing="false" onAction="#onPlayAction" onMouseEntered="#playTooltip" text="Play" GridPane.columnIndex="7" GridPane.halignment="CENTER" />
-                  <Button fx:id="stop" mnemonicParsing="false" onAction="#onStopAction" onMouseEntered="#stopTooltip" text="⏹" GridPane.columnIndex="8">
+                  <Button fx:id="fiveWordsBefore" mnemonicParsing="false" onAction="#onFiveWordBeforeAction" onMouseEntered="#fiveWordsBeforeTooltip" text="5&lt;&lt;" GridPane.columnIndex="1" GridPane.halignment="LEFT" />
+                  <Button fx:id="aWordBefore" mnemonicParsing="false" onAction="#onAWordBeforeAction" onMouseEntered="#aWordBeforeTooltip" text="1&lt;&lt;" GridPane.columnIndex="1" />
+                  <Button fx:id="decreaseDelay" mnemonicParsing="false" onAction="#onDecreaseDelayAction" onMouseEntered="#decreaseDelayTooltip" text="&lt;" GridPane.columnIndex="2" />
+                  <Button fx:id="pauseAndResume" mnemonicParsing="false" onAction="#onPauseAndResumeAction" onMouseEntered="#pauseAndResumeTooltip" text="⏸" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                  <Button fx:id="increaseDelay" mnemonicParsing="false" onAction="#onIncreaseDelayAction" onMouseEntered="#increaseDelayTooltip" text="&gt;" GridPane.columnIndex="4" />
+                  <Label fx:id="currentDelay" alignment="CENTER" contentDisplay="CENTER" onMouseEntered="#currentSpeedTooltip" text="0.50s" textAlignment="JUSTIFY" GridPane.columnIndex="5" GridPane.halignment="LEFT">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Label>
+                  <Button fx:id="play" mnemonicParsing="false" onAction="#onPlayAction" onMouseEntered="#playTooltip" text="Play" GridPane.columnIndex="5" GridPane.halignment="RIGHT" />
+                  <Button fx:id="stop" mnemonicParsing="false" onAction="#onStopAction" onMouseEntered="#stopTooltip" text="⏹" GridPane.columnIndex="6" GridPane.halignment="LEFT">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin></Button>
-                  <Label fx:id="currentWordCount" alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="60.0" text="0" textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.halignment="LEFT">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="maxWordsCount" prefHeight="20.0" prefWidth="110.0" text="/0" textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.halignment="CENTER">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="about" mnemonicParsing="false" onAction="#onAboutAction" text="About" GridPane.columnIndex="10" GridPane.halignment="RIGHT">
+                  <Button fx:id="about" mnemonicParsing="false" onAction="#onAboutAction" text="About" GridPane.columnIndex="6" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets right="5.0" />
                      </GridPane.margin>
@@ -85,10 +74,26 @@
                   <Insets top="5.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="currentWord" alignment="CENTER" prefHeight="360.0" prefWidth="1277.0" text=" " textAlignment="JUSTIFY" GridPane.rowIndex="1">
+            <Label fx:id="currentWord" alignment="CENTER" prefHeight="360.0" prefWidth="1280.0" text=" " textAlignment="JUSTIFY" GridPane.rowIndex="1">
                <font>
                   <Font size="36.0" />
                </font>
+            </Label>
+            <Label fx:id="maxWordsCount" text="/0" textAlignment="JUSTIFY" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="currentWordCount" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="20.0" prefWidth="350.0" text="0" textAlignment="JUSTIFY" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="360.0" />
+               </GridPane.margin>
             </Label>
          </children>
       </GridPane>
